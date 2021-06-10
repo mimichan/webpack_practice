@@ -23,11 +23,23 @@ module.exports = {
           },
         ],
       },
+      {
+        test:/\.(jpg|png)/,
+        use:[
+          {
+            loader: 'file-loader',
+            options:{
+              esModule :false,
+              name:'images/[name].[ext]'
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: './stylesheets/my.css',
+      filename: './stylesheets/main.css',
     }),
     new HtmlwebpackPlugin({
       template: './src/templates/index.html',//こちらのhtmlにビルドされたものが全て読み込まれる。
