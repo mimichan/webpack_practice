@@ -13,13 +13,16 @@ module.exports = {
   module:{
     rules:[
       {
-        test:/\.css/,//.cssというファイルを検知する
+        test:/\.(css|scss|sass)/,//.cssというファイルを検知する
         use:[
           {
             loader: MiniCssExtractPlugin.loader,//jsを通してhtmlに注入される
           },
           {
             loader: 'css-loader',
+          },
+          {
+            loader: 'sass-loader',
           },
         ],
       },
@@ -62,6 +65,10 @@ module.exports = {
     new HtmlwebpackPlugin({
       template: './src/templates/access.pug',
       filename:'access.html',
+    }),
+    new HtmlwebpackPlugin({
+      template: './src/templates/members/taro.pug',
+      filename:'members/taro.html',
     }),
     new CleanWebpackPlugin(),
   ],
