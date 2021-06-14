@@ -2,16 +2,44 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');//CleanWebpackPluginだけを読み込みますよ
-// const { default: my } = require('./src/modules/my');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  entry:"./src/javascripts/main.js",
+  mode: 'development',
+  devtool: 'source-map',
+  entry: {
+    main: './src/javascripts/main.js',
+  },
   output:{
     path: path.resolve(__dirname, './dist'),
     filename: 'javascripts/main.js',
   },
   module:{
     rules:[
+      {
+        test:/\.vue/,
+        exclude:/node_modules/,
+        use:[
+          {
+            loader:'vue-loader',
+          },
+        ]
+      },
+      {
+        test:/\.js/,
+        exclude:/node_modules/,
+        use:[
+          {
+            loader:'babel-loader',
+            options:{
+              presets:[
+                ['@babel/preset-env',{'targets': '>0.25%, not dead'}],
+                '@babel/preset-react',
+              ]
+            },
+          },
+        ],
+      },
       {
         test:/\.(css|scss|sass)/,//.cssというファイルを検知する
         use:[
@@ -20,6 +48,9 @@ module.exports = {
           },
           {
             loader: 'css-loader',
+            options:{
+              sourceMap: false
+            },
           },
           {
             loader: 'sass-loader',
@@ -27,7 +58,7 @@ module.exports = {
         ],
       },
       {
-        test:/\.(jpg|png)/,
+        test:/\.(gif|png|jpe?g|svg)$/i,
         use:[
           {
             loader: 'file-loader',
@@ -35,6 +66,9 @@ module.exports = {
               esModule :false,
               name:'images/[name].[ext]'
             },
+          },
+          {
+            loader: 'image-webpack-loader',
           },
         ],
       },
@@ -55,6 +89,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       filename: './stylesheets/main.css',
     }),
