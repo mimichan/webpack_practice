@@ -1,11 +1,11 @@
-// reactApp.jsx
+// src/javascripts/reactApp.js
 
 import ReactDom from 'react-dom';
 import * as React from 'react';
 
 const App = (props) => {
   return (
-    <div style={{color:'red'}}>
+    <div>
       Hello, React App!
     </div>
   );
